@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "bp6",
-    "slug": "bp6",
+    "name": "expo_sqlite_boilerplate",
+    "slug": "expo_sqlite_boilerplate",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.bp6"
+      "package": "com.anonymous.expo_sqlite_boilerplate"
     },
     "web": {
       "bundler": "metro",

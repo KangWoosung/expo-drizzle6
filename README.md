@@ -3,6 +3,7 @@
 ## Expo-SQLite Boilerplate
 
 This Boilerplate includes..
+
 - React ver.18.3
 - Expo ver.52
 - Expo-SQLite
@@ -13,7 +14,7 @@ This Boilerplate includes..
 - Zod & Resolver
 - Zustand
 - Moti
-
+- React Native Primitives
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
