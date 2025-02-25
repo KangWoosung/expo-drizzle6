@@ -1,40 +1,97 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import {
+  Appearance,
+  Image,
+  Text,
+  Touchable,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import React, { Suspense, useEffect, useState } from "react";
+import { Stack } from "expo-router";
 import "../styles/global.css";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
-import { useColorScheme } from '@/src/hooks/useColorScheme';
+import { StatusBar } from "expo-status-bar";
+import { Ionicons } from "@expo/vector-icons";
+import { useColorScheme } from "nativewind";
+import RootStackLayout from "./_components/RootLayout";
+import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "@/libs/query-client";
+import MigrationFallback from "@/components/fallbacks/MigrationFallback";
+import { Toaster } from "@/components/Toaster";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useDrizzleStudio } from "expo-drizzle-studio-plugin";
+import migrations from "../db/drizzle/migrations/migrations";
+import { ENV } from "@/constants/env";
+import * as schema from "@/db/drizzle/schema";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+// const defaultAvatar = require("../assets/images/default-avatar.png");
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+const Layout = () => {
+  const [avatar, setAvatar] = useState({ uri: "" });
+  const [noticeCnt, setNoticeCnt] = useState(0);
 
+  const { colorScheme, setColorScheme, toggleColorScheme } = useColorScheme();
+
+  const expoDB = openDatabaseSync(ENV.DB_NAME);
+  const drizzleDB = drizzle(expoDB);
+  const { success, error } = useMigrations(drizzleDB, migrations);
+
+  // DrizzleStudio
+  useDrizzleStudio(expoDB);
+
+  // Async Data Fetching 을 나중에 추가...
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+    setAvatar({ uri: ENV.AVATAR_OBJ.uri });
+    setNoticeCnt(1);
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    // <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
+    // </NavigationContainer>
+    <SafeAreaProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <StatusBar
+            animated
+            style={colorScheme === "dark" ? "light" : "dark"}
+          />
+          <Suspense fallback={<MigrationFallback />}>
+            {error ? (
+              <MigrationFallback error={error} />
+            ) : (
+              <SQLiteProvider
+                databaseName={ENV.DB_NAME}
+                options={{ enableChangeListener: true }}
+                useSuspense
+              >
+                <QueryClientProvider client={queryClient}>
+                  <RootStackLayout
+                    avatar={avatar}
+                    noticeCnt={noticeCnt}
+                    colorScheme={colorScheme}
+                    toggleColorScheme={toggleColorScheme}
+                    initialRouteName="(tabs)" // 추가
+                  />
+                </QueryClientProvider>
+              </SQLiteProvider>
+            )}
+          </Suspense>
+        </ThemeProvider>
+        <Toaster />
+      </GestureHandlerRootView>
+    </SafeAreaProvider>
   );
-}
+};
+
+export default Layout;

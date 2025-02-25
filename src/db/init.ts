@@ -8,10 +8,10 @@ upgradeDbIfNeeded 를 충분히 테스트하고, initialize 를 upgradeDbIfNeede
 
 */
 
-import * as SQLite from 'expo-sqlite';
-import { Platform } from 'react-native';
-import initialize from './versions/initdb';
-import upgradeDbIfNeeded from './upgradeDbIfNeeded';
+import * as SQLite from "expo-sqlite";
+import { Platform } from "react-native";
+import initialize from "./versions/initdb";
+import upgradeDbIfNeeded from "./upgradeDbIfNeeded";
 
 // export async function openDatabase() {
 //   if (Platform.OS === "web") {
@@ -27,7 +27,6 @@ import upgradeDbIfNeeded from './upgradeDbIfNeeded';
 // }
 
 export const initDatabase = async (db: SQLite.SQLiteDatabase) => {
-
   return await upgradeDbIfNeeded(db);
   // return await initialize(db);
 };

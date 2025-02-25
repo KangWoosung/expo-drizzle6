@@ -1,7 +1,7 @@
 // /src/db/drizzle/schema.ts
 // Claude 가 제안하는 스키마를 그대로 쓰기엔 부족함과 오류가 좀 많습니다.
 // 직접 Claude 에게서 받은 스키마와 아래 스키마를 비교해보시면 좋을 것 같습니다.
-import { artistTypeEnumArray } from "@/src/zod-schemas/common";
+import { artistTypeEnumArray } from "@/zod-schemas/common";
 import { InferInsertModel, InferModel } from "drizzle-orm";
 import {
   text,
@@ -22,7 +22,7 @@ export const artists = sqliteTable(
     country: text("country").default("XXA")!,
     disambiguation: text("disambiguation")!,
   },
-  (t) => ({ nameIndex: index("name_index").on(t.name) })
+  (t) => ({ artistsNameIndex: index("artists_name_index").on(t.name) })
 );
 
 // Releases table
@@ -41,8 +41,8 @@ export const releases = sqliteTable(
     packaging: text("packaging"),
   },
   (t) => ({
-    titleIndex: index("title_index").on(t.title),
-    artistIdIndex: index("artist_id_index").on(t.artist_id),
+    releaseTitleIndex: index("release_title_index").on(t.title),
+    releasesArtistIdIndex: index("releaxes_artist_id_index").on(t.artist_id),
   })
 );
 
@@ -57,8 +57,10 @@ export const recordings = sqliteTable(
     artist_id: text("artist_id").references(() => artists.id),
   },
   (t) => ({
-    titleIndex: index("title_index").on(t.title),
-    artistIdIndex: index("artist_id_index").on(t.artist_id),
+    recordingsTitleIndex: index("recordings_title_index").on(t.title),
+    recordingsArtistIdIndex: index("recordings_artist_id_index").on(
+      t.artist_id
+    ),
   })
 );
 
@@ -97,7 +99,7 @@ export const tags = sqliteTable(
     id: integer("id").primaryKey({ autoIncrement: true }),
     name: text("name").unique(),
   },
-  (t) => ({ nameIndex: index("name_index").on(t.name) })
+  (t) => ({ tagsNameIndex: index("tags_name_index").on(t.name) })
 );
 
 // Artist Tags relationship table
@@ -143,4 +145,10 @@ export const recordingTags = sqliteTable(
 export const testTable = sqliteTable("test_table", {
   id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
   name: text("name").notNull(),
+});
+
+// 2025-02-20 17:28:33
+export const migrationsTest = sqliteTable("migrations_test_table", {
+  id: integer("id", { mode: "number" }).primaryKey({ autoIncrement: true }),
+  testString: text("name").notNull(),
 });
