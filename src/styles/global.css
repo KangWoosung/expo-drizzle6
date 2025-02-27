@@ -1,3 +1,40 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --foreground-primary: #2e2c2c;
+  --foreground-secondary: #6e6e6e;
+  --foreground-tertiary: #8e8e8e;
+  --background-primary: #dfdada;
+  --background-secondary: #e5e5e5;
+  --background-tertiary: #d5d5d5;
+}
+
+.bg-primary {
+  background-color: var(--background-primary);
+}
+
+.text-primary {
+  color: var(--foreground-primary);
+}
+
+.text-secondary {
+  color: var(--foreground-secondary);
+}
+
+.text-tertiary {
+  color: var(--foreground-tertiary);
+}
+
+.bg-background {
+  background-color: var(--background-primary);
+}
+
+.bg-secondary {
+  background-color: var(--background-secondary);
+}
+
+.bg-tertiary {
+  background-color: var(--background-tertiary);
+}

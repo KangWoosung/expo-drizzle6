@@ -17,6 +17,7 @@
   "dependencies": {
     "@expo/vector-icons": "^14.0.2",
     "@hookform/resolvers": "^3.9.1",
+    "@react-native-async-storage/async-storage": "^2.1.1",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/avatar": "^1.1.0",
@@ -45,6 +46,7 @@
     "expo-symbols": "~0.2.0",
     "expo-system-ui": "~4.0.6",
     "expo-web-browser": "~14.0.1",
+    "expo-zustand-persist": "^1.0.4",
     "mmkv": "^1.0.4",
     "moti": "^0.29.0",
     "nativewind": "^4.1.23",
@@ -52,6 +54,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.5",
+    "react-native-async-storage": "^0.0.1",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-mmkv": "^3.2.0",
     "react-native-reanimated": "~3.16.1",

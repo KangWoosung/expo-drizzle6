@@ -4,21 +4,40 @@
 
 */
 
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { Control, Controller } from "react-hook-form";
+import { View, StyleSheet, Text } from "react-native";
 
-export function FormGroup({
-  errorMessage = "",
-  children,
-}: {
-  errorMessage: string;
+type InputGroupProps = {
+  control: Control<any>;
+  name: string;
   children: React.ReactNode;
-}) {
+};
+
+export function InputGroup({ control, name, children }: InputGroupProps) {
   return (
-    <View className={`form-group ${errorMessage.length > 0 ? "error" : ""}`}>
-      {children}
-      {errorMessage.length > 0 ? (
-        <View className="msg">{errorMessage}</View>
-      ) : null}
+    <View style={styles.formGroup}>
+      <Controller
+        control={control}
+        name={name}
+        render={({
+          field: { onChange, onBlur, value },
+          fieldState: { error },
+        }) => (
+          <View>
+            {React.cloneElement(children as React.ReactElement, {
+              onChange,
+              onBlur,
+              value,
+              style: [
+                (children as React.ReactElement).props.style,
+                error && styles.errorInput,
+              ],
+            })}
+            {error && <Text style={styles.msg}>{error.message}</Text>}
+          </View>
+        )}
+      />
     </View>
   );
 }
@@ -28,6 +47,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   msg: {
-    color: "red",
+    color: "#ff8566",
+    marginTop: 5,
+  },
+  errorInput: {
+    borderColor: "#ff8566",
+    borderWidth: 1,
   },
 });

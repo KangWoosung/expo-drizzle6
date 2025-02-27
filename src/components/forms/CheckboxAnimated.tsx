@@ -25,7 +25,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   checked,
   onPress,
-}) => {
+}: CheckboxProps) => {
   const fadedActiveColor = Color(ACTIVE_COLOR).alpha(0.1).toString();
 
   const rContainerStyle = useAnimatedStyle(() => {
@@ -77,7 +77,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 12,
+    paddingVertical: 8,
     borderWidth: 1,
     borderColor: "#fff",
     borderRadius: 32,
@@ -88,6 +88,5 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 18,
     fontFamily: "SF-Pro-Rounded-Bold",
-    color: "#fff",
   },
 });

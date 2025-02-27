@@ -27,3 +27,10 @@ export const Colors = {
 
 export const ACTIVE_COLOR = "#EF8E52";
 export const INACTIVE_COLOR = "#B3B1B4";
+
+export const COLORS = {
+  foregroundPrimary: "#2e2c2c",
+  foregroundSecondary: "#6e6e6e",
+  foregroundTertiary: "#8e8e8e",
+  // ... 다른 색상들
+} as const;
