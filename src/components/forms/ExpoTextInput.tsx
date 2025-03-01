@@ -15,6 +15,7 @@ type ExpoTextInputProps = {
   placeholder?: string;
   //   setInputValue: (value: string) => void;
   defaultValue?: string;
+  className?: string;
 };
 
 export function ExpoTextInput({
@@ -24,6 +25,7 @@ export function ExpoTextInput({
   placeholder,
   //   setInputValue,
   defaultValue,
+  className,
 }: ExpoTextInputProps) {
   return (
     <View style={styles.formGroup}>
@@ -35,7 +37,7 @@ export function ExpoTextInput({
           field: { onChange, onBlur, value },
           fieldState: { error },
         }) => (
-          <View>
+          <View className={className}>
             <TextInput
               style={[styles.input, error && styles.errorInput]}
               placeholder={placeholder}

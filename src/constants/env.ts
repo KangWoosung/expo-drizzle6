@@ -8,6 +8,8 @@ const defaultAvatarObjUri =
 const defaultDbName = "HOERZU";
 const defaultToastTimeout = 2000;
 
+const defaultStorageKey = "multistep-formData";
+
 export const ENV: EnvSchemaType = {
   APP_NAME: defaultAppName,
   APP_PROPAGANDA: defaultAppPropaganda,
@@ -16,4 +18,5 @@ export const ENV: EnvSchemaType = {
   AVATAR_OBJ: {
     uri: defaultAvatarObjUri,
   },
+  STORAGE_KEY: defaultStorageKey,
 };

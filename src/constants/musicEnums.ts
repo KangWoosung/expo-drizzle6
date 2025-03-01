@@ -33,6 +33,8 @@ export enum MoodBasedChoices {
   FOCUSED = "Focused",
   RELAXED = "Relaxed",
   NOSTALGIC = "Nostalgic",
+  MELANCHOLIC = "Melancholic",
+  SLEEPY = "Sleepy",
 }
 
 export enum Frequency {

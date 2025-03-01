@@ -22,6 +22,7 @@ export const EnvSchema = z.object({
   AVATAR_OBJ: z.object({
     uri: z.string(),
   }),
+  STORAGE_KEY: z.string(),
 });
 
 export type EnvSchemaType = z.infer<typeof EnvSchema>;

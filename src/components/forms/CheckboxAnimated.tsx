@@ -38,8 +38,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         checked ? ACTIVE_COLOR : INACTIVE_COLOR,
         TimingConfig
       ),
-      paddingLeft: 20,
-      paddingRight: !checked ? 20 : 14,
+      paddingLeft: 12,
+      paddingRight: !checked ? 16 : 12,
     };
   }, [checked]);
 
@@ -77,7 +77,8 @@ export const Checkbox: React.FC<CheckboxProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
     borderWidth: 1,
     borderColor: "#fff",
     borderRadius: 32,
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   label: {
-    fontSize: 18,
+    fontSize: 16,
     fontFamily: "SF-Pro-Rounded-Bold",
   },
 });
