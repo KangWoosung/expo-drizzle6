@@ -1,3 +1,9 @@
+/*
+from:
+https://reactiive.io/articles/checkbox-interactions
+
+
+*/
 import { StyleSheet } from "react-native";
 import Color from "color";
 import { AntDesign } from "@expo/vector-icons";

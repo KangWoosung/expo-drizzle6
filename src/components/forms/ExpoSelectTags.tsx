@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Control, Controller } from "react-hook-form";
 import { View, StyleSheet, Text, TextInput } from "react-native";
 import { Checkbox } from "./CheckboxAnimated";
@@ -22,47 +22,55 @@ export const ExpoSelectTags = ({
   onSelectChange,
   setValue,
 }: ExpoSelectTagsProps) => {
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>(
+    selectedData || []
+  );
 
-  // console.log("tagsData....", tagsData);
-  // console.log("selectedData....", selectedData);
+  // selectedData prop이 변경될 때 상태 업데이트를 위한 useEffect 추가
+  useEffect(() => {
+    console.log(`${inputName} selectedData 변경됨:`, selectedData);
+    setSelectedTags(selectedData || []);
+  }, [selectedData, inputName]);
+
+  console.log("### selectedTags", selectedTags);
 
   // 체크박스 클릭 시 이벤트 핸들러
-  // 여기서 해줘야 할 일들...
-
-  const handleCheckboxClick = (tag: string) => {
+  const handleCheckboxClick = (
+    tag: string,
+    onChange?: (value: any) => void
+  ) => {
     // 이미 선택된 태그인지 확인
     const isCurrentlySelected = selectedTags.includes(tag);
     // 토글하여 새 상태 결정
     const newSelected = !isCurrentlySelected;
     console.log("현재 선택 상태:", tag, isCurrentlySelected, "→", newSelected);
 
-    // 로컬 상태도 업데이트
-    if (newSelected) {
-      setSelectedTags([...selectedTags, tag]);
-    } else {
-      setSelectedTags(selectedTags.filter((item) => item !== tag));
-    }
+    // 새로운 선택된 태그 배열 생성
+    const newSelectedTags = newSelected
+      ? [...selectedTags, tag] // 추가
+      : selectedTags.filter((item) => item !== tag); // 제거
+
+    // 로컬 상태 업데이트
+    setSelectedTags(newSelectedTags);
 
     // 부모 컴포넌트에 알림
     if (onSelectChange) {
       onSelectChange(tag, newSelected);
     }
 
-    // RHF 폼 값 업데이트 추가
+    // React Hook Form의 onChange 호출 - 이게 에러 상태를 업데이트하는 핵심!
+    if (onChange) {
+      onChange(newSelectedTags);
+    }
+
+    // RHF 폼 값 업데이트 (이 부분은 onChange가 있다면 필요 없을 수 있음)
     if (setValue) {
-      // RHF 폼 엘리먼트 밸류에 강제할당
-      setValue(
-        inputName,
-        newSelected
-          ? [...selectedTags, tag] // 추가
-          : selectedTags.filter((item) => item !== tag) // 제거
-      );
+      setValue(inputName, newSelectedTags);
     }
   };
 
   return (
-    <View className="flex flex-row flex-wrap gap-4 my-8 p-4">
+    <View className="flex flex-row flex-wrap gap-4 p-4">
       <Controller
         control={control}
         name={inputName}
@@ -78,10 +86,11 @@ export const ExpoSelectTags = ({
                   key={tag.key}
                   label={tag.value}
                   checked={selectedTags.includes(tag.key)}
-                  onPress={() => handleCheckboxClick(tag.key)}
+                  onPress={() => handleCheckboxClick(tag.key, onChange)}
                 />
               ))}
             </View>
+            {error && <Text style={styles.error}>{error.message}</Text>}
           </View>
         )}
       />
@@ -135,5 +144,9 @@ const styles = StyleSheet.create({
   errorInput: {
     borderColor: "#ff8566",
     borderWidth: 1,
+  },
+  error: {
+    color: "#ff8566",
+    marginTop: 5,
   },
 });

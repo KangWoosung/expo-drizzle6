@@ -1,40 +1,40 @@
 // 음악 관련 상수 정의
 export enum Genre {
-  POP = "pop",
-  ROCK = "rock",
-  HIPHOP = "Hip Hop",
+  POP = "POP",
+  ROCK = "ROCK",
+  HIPHOP = "HIPHOP",
   RNB = "R&B",
-  JAZZ = "jazz",
-  CLASSICAL = "classical",
-  ELECTRONIC = "Electronic",
-  COUNTRY = "Country",
-  FOLK = "Folk",
-  BLUES = "Blues",
-  METAL = "Metal",
-  REGGAE = "Reggae",
-  KPOP = "K-Pop",
+  JAZZ = "JAZZ",
+  CLASSICAL = "CLASSICAL",
+  ELECTRONIC = "ELECTRONIC",
+  COUNTRY = "COUNTRY",
+  FOLK = "FOLK",
+  BLUES = "BLUES",
+  METAL = "METAL",
+  REGGAE = "REGGAE",
+  KPOP = "KPOP",
 }
 
 export enum PreferredDevice {
-  PHONE = "phone",
-  COMPUTER = "computer",
-  TABLET = "tablet",
-  SPEAKER = "Speaker",
-  HEADPHONES = "Headphones",
-  EARBUDS = "Earbuds",
+  PHONE = "PHONE",
+  COMPUTER = "COMPUTER",
+  TABLET = "TABLET",
+  SPEAKER = "SPEAKER",
+  HEADPHONES = "HEADPHONES",
+  EARBUDS = "EARBUDS",
 }
 
 export enum MoodBasedChoices {
-  HAPPY = "happy",
-  SAD = "sad",
-  ENERGETIC = "energetic",
-  CALM = "Calm",
-  ROMANTIC = "Romantic",
-  FOCUSED = "Focused",
-  RELAXED = "Relaxed",
-  NOSTALGIC = "Nostalgic",
-  MELANCHOLIC = "Melancholic",
-  SLEEPY = "Sleepy",
+  HAPPY = "HAPPY",
+  SAD = "SAD",
+  ENERGETIC = "ENERGETIC",
+  CALM = "CALM",
+  ROMANTIC = "ROMANTIC",
+  FOCUSED = "FOCUSED",
+  RELAXED = "RELAXED",
+  NOSTALGIC = "NOSTALGIC",
+  MELANCHOLIC = "MELANCHOLIC",
+  SLEEPY = "SLEEPY",
 }
 
 export enum Frequency {
@@ -63,3 +63,21 @@ export enum SkillLevel {
   ADVANCED = "advanced",
   PROFESSIONAL = "Professional",
 }
+
+export const genreList = Object.entries(Genre).map(
+  ([key, value]: [string, Genre]) => {
+    return {
+      key,
+      value,
+    };
+  }
+);
+
+export const preferredDeviceList = Object.entries(PreferredDevice).map(
+  ([key, value]: [string, PreferredDevice]) => {
+    return {
+      key,
+      value,
+    };
+  }
+);

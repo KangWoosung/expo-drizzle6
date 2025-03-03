@@ -27,7 +27,7 @@ import { MMKV } from "react-native-mmkv";
 import { Ionicons } from "@expo/vector-icons";
 import { useColorScheme } from "nativewind";
 import { getColors } from "@/constants/color";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import { useIsFocused } from "@react-navigation/native";
 import LastViewedArtist from "../_components/cards/LastViewedArtist";
 import LastViewedAlbum from "../_components/cards/LastViewedAlbum";
@@ -37,12 +37,14 @@ import { iconSize } from "@/constants/tokens";
 import { SelectArtistSchemaType } from "@/zod-schemas/artists";
 import { SelectAlbumSchemaType } from "@/zod-schemas/albums";
 import { Button } from "@/components/ui/button";
+import { useFormStore } from "@/hooks/useFormStore";
 
 const index = () => {
   const isFocused = useIsFocused(); // 현재 페이지가 활성화되었는지 확인
   const { colorScheme } = useColorScheme();
   const currentColors = getColors(colorScheme as "light" | "dark");
   const storage = new MMKV();
+  const { formData, updateStepData, resetForm } = useFormStore();
 
   // stats 관리를 위한 useState 추가
   const [artistsCnt, setArtistsCnt] = useState(0);
@@ -85,11 +87,21 @@ const index = () => {
         <Text className="text-base text-gray-600 italic">
           {ENV.APP_PROPAGANDA}
         </Text>
-        <Link href="../preferences" asChild>
-          <Button>
-            <Text>설정</Text>
+        <View className="flex flex-row justify-between items-center">
+          <Link href="../preferences" asChild>
+            <Button>
+              <Text>설정</Text>
+            </Button>
+          </Link>
+          <Button
+            onPress={() => {
+              resetForm();
+              router.reload();
+            }}
+          >
+            <Text>설정 clear</Text>
           </Button>
-        </Link>
+        </View>
       </View>
 
       <IndexStats
@@ -101,28 +113,30 @@ const index = () => {
       {/* DO NOT FORGET TO USE TERNARY OPERATOR INSTEAD OF LOGICAL OPERATOR */}
       {lastArtist ? <LastViewedArtist lastArtist={lastArtist} /> : null}
 
-      {lastAlbum ? <LastViewedAlbum lastAlbum={lastAlbum} /> : null}
+      {/* {lastAlbum ? <LastViewedAlbum lastAlbum={lastAlbum} /> : null} */}
 
       {/* 화면 허전함 방지 로고 */}
       {/* Logo to prevent empty screen */}
-      <View className="space-y-1 fixed -bottom-40 center ">
-        <View className="flex flex-row justify-center items-center">
-          <Ionicons
-            name="logo-stackoverflow"
-            size={iconSize.base}
-            color={currentColors.foreground}
-            className="mx-2"
-          />
-          <Text
-            className="font-bold"
-            style={{
-              color: currentColors.foreground,
-            }}
-          >
-            {ENV.APP_NAME}
-          </Text>
+      {lastArtist ? null : (
+        <View className="space-y-1 fixed -bottom-40 center ">
+          <View className="flex flex-row justify-center items-center">
+            <Ionicons
+              name="logo-stackoverflow"
+              size={iconSize.base}
+              color={currentColors.foreground}
+              className="mx-2"
+            />
+            <Text
+              className="font-bold"
+              style={{
+                color: currentColors.foreground,
+              }}
+            >
+              {ENV.APP_NAME}
+            </Text>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

@@ -134,6 +134,33 @@ const RootStackLayout = ({
           gestureDirection: "horizontal",
         }}
       />
+
+      <Stack.Screen
+        name="preferences"
+        options={{
+          headerShown: true,
+          headerTitle: "사용자 설정",
+          headerStyle: {
+            backgroundColor: currentColors.background,
+          },
+          headerTintColor: currentColors.foreground,
+          headerLeft: () => (
+            <TouchableOpacity
+              onPress={() => {
+                router.back(); // history.back()과 유사한 동작
+              }}
+              style={{ marginLeft: 10 }}
+            >
+              <Ionicons
+                name="arrow-back"
+                size={iconSize.sm}
+                color={currentColors.foreground}
+                style={{ marginRight: 10 }}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Stack.Screen name="+not-found" options={{ headerShown: false }} />
     </Stack>
   );

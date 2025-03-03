@@ -10,10 +10,10 @@ import {
 
 export const preferencesSchema = z.object({
   genre: z.array(z.nativeEnum(Genre)).min(1, "Select at least one genre"),
-  preferredDevice: z.enum(
-    Object.values(PreferredDevice) as [string, ...string[]]
-  ),
-  moodBasedChoices: z
-    .array(z.nativeEnum(MoodBasedChoices))
-    .min(1, "Select at least one mood"),
+  preferredDevice: z
+    .array(z.nativeEnum(PreferredDevice))
+    .min(1, "Select at least one device"),
+  // moodBasedChoices: z
+  //   .array(z.nativeEnum(MoodBasedChoices))
+  //   .min(1, "Select at least one mood"),
 });

@@ -110,7 +110,7 @@ const index = () => {
       ) : (
         <View>
           <Stepper currentStep={1} totalSteps={3} />
-          <Text className="text-2xl font-bold mb-4">User Information</Text>
+          <Text className="text-2xl font-bold my-4 mt-8">User Information</Text>
 
           <ExpoTextInput
             control={control}
